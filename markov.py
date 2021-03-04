@@ -35,7 +35,7 @@ def make_chains(text_string):
     return chains
 
 
-def make_text(chains):
+def make_text(chains, char_limit=None):
     """Take dictionary of Markov chains; return random text."""
 
     keys = list(chains.keys())
@@ -63,25 +63,26 @@ filenames = sys.argv[1:]
 # Open the files and turn them into one long string
 text = open_and_read_file(filenames)
 
-# Get a Markov chain
-dic_chains = make_chains(text)
+# # Get a Markov chain
+chains = make_chains(text)
 
-#Adding bot into discord server with specific interactions
+#Adding bot into discord server with specific interaction
 client = discord.Client()
 
 @client.event
 async def on_ready():
     print(f'Successfully connected! Logged in as {client.user}.')
 
-
 @client.event
 async def on_message(message):
-    if message.author == client.user:
-        return
+    # if message.author == client.user:
+    #    return
 
-    if message.content.startswith('$Say it'):
-        await message.channel.send(dic_chains)
-    
+    if message.content == 'Say it':
+        await message.channel.send ("Okay I think I get it")
+
+    #await message.channel.send(make_text(chains))
+
 
 
 client.run(os.environ['DISCORD_TOKEN'])
